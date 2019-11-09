@@ -1,0 +1,29 @@
+/*VersionNumber:null*/
+//__params__:host,token
+if(host=="") host="www.crossplatform.co.kr:5000";
+//token=engine.callScript("Process/innerwave/gettoken.kis").trim()
+token="gAAAAABduXkNSK_Q0XSPWpfqu8SUT37eUirjRy6urwyhkNy77RqoBGlBnjalfxqo7A8IM7Jqpme8Sx4zFL6Y5fFygcosEUuJhbhIvAWPeG_otdmelUNoB-XZRmQestgzAyqWIucqVUryPbDC544DovYN5SD2lepjSQ";
+var qhost="http://"+host+"/v3/auth/tokens";
+var headers=[];
+headers.push("Content-Type");
+headers.push("application/json");
+headers.push("X-Auth-Token");
+headers.push(token);
+headers.push("X-Subject-Token");
+headers.push(token);
+var ret="";
+ret=manager.getUrlDataWithHeaders(qhost,headers);
+var idx=ret.indexOf("#####");
+var rtoken="";
+if(idx>0){
+  var headers=ret.substring(0,idx).split(engine.cr());
+  var nidx=ret.indexOf(engine.cr(),idx);
+  ret=ret.substring(nidx+1);
+  for(var i=0;i<headers.length;i++){
+    if(headers[i].indexOf("X-Subject-Token")>=0){
+  		rtoken=(headers[i].split(":")[1].trim());    
+    }
+  }
+}
+if(rtoken==token) out.println( ret);
+else out.printl("NO");

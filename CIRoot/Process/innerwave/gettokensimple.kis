@@ -1,0 +1,15 @@
+/*VersionNumber:null*/
+//__params__:host,domain,user,pwd
+if(host=="") host="www.crossplatform.co.kr:5000";
+if(domain=="") domain="Default"
+if(user=="") user="admin"
+if(pwd=="") pwd="ADMIN_PASS"
+
+var host="http://"+host+"/v3/auth/tokens";
+
+//out.println(data);
+var ret=manager.generateKeystoneToken(host,domain,user,pwd);
+out.println(ret.getString("X-Subject-Token"));
+
+var ret=manager.generateKeystoneToken(domain,user,pwd);//Using host defined at server.xml
+out.println(ret.getString("X-Subject-Token"));

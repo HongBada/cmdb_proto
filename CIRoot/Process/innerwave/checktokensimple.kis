@@ -1,0 +1,10 @@
+/*VersionNumber:null*/
+//__params__:host,token
+if(host=="") host="www.crossplatform.co.kr:5000";
+//token=engine.callScript("Process/innerwave/gettoken.kis").trim()
+token="gAAAAABdudDF_6nH-m8icancggHb42OoumoND0LJtU7E4lWaaYusYpWDwCT-7MYnkTdS6C02BaoaEMArRPkO2FTmN0vy7gIDvUn9RYcXHcbXLfzQtWadutmwsZFLEysQZuNrM2F1vHMd5Ekt0W3LEVfbSbAu-fpvRg";
+var qhost="http://"+host+"/v3/auth/tokens";
+out.println(manager.checkKeystoneToken(qhost,token))
+
+
+out.println(manager.checkKeystoneToken(token));//Use host defined at server.xml
