@@ -6,4 +6,4 @@ var file=new File(path)
 if(!file.exists()){
 	manager.cloneGitRepo(qhost,path);
 }
-out.println("ok1234");
+out.println("ok14");
