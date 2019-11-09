@@ -1,0 +1,7 @@
+/*VersionNumber:null*/
+importPackage(java.io)
+var qhost="https://github.com/HongBada/cmdb_proto.git";
+var path="/Library/tomcat/webapps/ROOT/repo";
+var file=new File(path)
+manager.commitAll();
+out.println("ok");

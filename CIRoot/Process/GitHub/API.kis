@@ -1,0 +1,16 @@
+/*VersionNumber:null*/
+    var qhost="https://api.github.com";
+    var headers=[];
+    headers.push("Authorization");
+    headers.push("token "+manager.githubtoken);
+    var ret="";
+/*
+    if(method=="GET"){
+      ret=manager.getUrlData(qhost,headers);
+    }else if(method=="POST"){
+      ret=manager.postUrlData(qhost,params,headers);
+    }
+*/
+
+    ret=(manager.getUrlData(qhost,headers));
+    out.println((ret));

@@ -1,0 +1,9 @@
+/*VersionNumber:null*/
+importPackage(java.io)
+var qhost="https://github.com/HongBada/cmdb_proto.git";
+var path="/Library/tomcat/webapps/ROOT/repo";
+var file=new File(path)
+if(!file.exists()){
+	manager.cloneGitRepo(qhost,path);
+}
+out.println("ok");
