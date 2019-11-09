@@ -4,4 +4,4 @@ var qhost="https://github.com/HongBada/cmdb_proto.git";
 var path="/Library/tomcat/webapps/ROOT/repo";
 var file=new File(path)
 manager.pushAll();
-out.println("ok");
+out.println("ok12121");
