@@ -18,15 +18,15 @@ for(var i=0;i<rooms.length;i++){
   var chatmsg=rooms[i].getString("chatmsg")
   var registtime=rooms[i].getString("registtime");
   var date=new Date(parseInt(registtime));
-  var buffer=''<div class="grid-container">\
+  var buffer=''''<div class="grid-container">\
   <div class="grid-item">\
     <img src="https://tistory2.daumcdn.net/tistory/2953643/skin/images/2.jpg" width="100%"></div>\
   <div class="grid-item">\
-    <div id="title_deco">''+chatmsg+''</div>\
-    <div id="detail_deco">안녕하세요. "''+area+''"에 사는 "''+age+'' ''+sex+''"입니다.<br /> 오픈채팅방 url : ''+chaturl+'' <br /> 채팅방 열기를 누르시면 상세정보가 보입니다. <br />감사합니다.</div>\
-    <div id="from_deco">''+area+''/''+sex+''<button class="button" onclick="window.open(&quot;''+chaturl+''&quot;)">채팅방열기</button></div>\
+    <div id="title_deco">''''+chatmsg+''''</div>\
+    <div id="detail_deco">안녕하세요. "''''+area+''''"에 사는 "''''+age+'''' ''''+sex+''''"입니다.<br /> 오픈채팅방 url : ''''+chaturl+'''' <br /> 채팅방 열기를 누르시면 상세정보가 보입니다. <br />감사합니다.</div>\
+    <div id="from_deco">''''+area+''''/''''+sex+''''<button class="button" onclick="window.open(&quot;''''+chaturl+''''&quot;)">채팅방열기</button></div>\
   </div>\
-  </div>'';  
+  </div>'''';  
   var last=siteInfo.get(age+"_"+category);
   if(last==null) last="";
   last+=buffer;
@@ -43,7 +43,7 @@ for(var i=0;i<objs.length;i++){
   var data=siteInfo.getString(cate);
   if(tm==""){
     //데이터가 없을때
-    data=''<div class="grid-container"><p>24시간안에 등록된 채팅방이 없습니다.</p></div>'';
+    data=''''<div class="grid-container"><p>24시간안에 등록된 채팅방이 없습니다.</p></div>'''';
     if(lasttm!="norooms"){
       var map= new MAP();
       map.put("UpdateTm","norooms");
