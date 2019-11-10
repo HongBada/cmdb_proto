@@ -1,0 +1,61 @@
+/*VersionNumber:null*/
+importPackage(java.util);
+importPackage(java.lang);
+importPackage(java.net);
+importPackage(java.io);
+importPackage(org.json.simple)
+importPackage(com.google.gson)
+importPackage(Packages.qwave.chatbot.util)
+
+var gsonBuilder = new GsonBuilder();
+var gson = gsonBuilder.setPrettyPrinting().create();
+
+/*--------------------*/
+// java : class 
+/*--------------------*/
+var jsonUtil = new JSONUtils();
+
+
+/*--------------------*/
+// Parameter
+/*--------------------*/
+// 임시 api 요청 proxy url [post] 웹서비스에서 리턴되는 xml을 json으로 파싱해서 리턴함
+var api_domain 	= "http://ai.innerwave.co.kr:20083/api/proxy";
+
+// callUrl 시 전체 API 경로와 파라미터를 넣어줘야 함
+// 평화이즈 샘플 code 
+// hospitalCd(기관기호 or 병원구분코드) : 012 
+// P_ID , pId (환자번호) : 23981090
+
+var api_json_param = "{\"callUrl\":\"http://emr012.cmcnu.or.kr/cmcnu/.live?submit_id=DRBPA19002&ex_interface=MOB|012&business_id=mb&sessinstcd=012&pid=23981090&flag=\"}";
+
+
+//var api_path = request.getParameter("api_path");
+//var api_json_param = request.getParameter("api_json_param");
+
+var tm_api_json_param = unescape( api_json_param );    // unescape
+
+/*--------------------*/
+// Set data
+/*--------------------*/
+var api_url = api_domain;
+api_json_param = jsonUtil.parseStringToJSONObject(tm_api_json_param);
+
+/*--------------------*/
+// API call
+/*--------------------*/
+var hTTPUtil = new HTTPUtil();
+var api_result = hTTPUtil.getHttpPostToJson(api_url, api_json_param);
+
+
+// debug 용
+//var api_json_param_search = api_json_param;
+//api_result.put("tm_api_json_param", tm_api_json_param);
+//api_result.put("api_json_param_search", api_json_param.search);
+
+
+/*--------------------*/
+// Print
+/*--------------------*/
+//out.println(api_result);
+out.println(gson.toJson(api_result));
