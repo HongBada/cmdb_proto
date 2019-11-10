@@ -1,0 +1,180 @@
+/*VersionNumber:null*/
+//__nashorn__
+try{
+  engine.serverlog("query:"+request.getBody());
+  var req=JSON.parse(request.getBody());
+  /*
+  //var req={}
+  var req={"timezone":"utc","panelId":2,"dashboardId":1,
+    "range":{"from":"2016-06-05T11:59:47.197Z","to":"2022-01-13T11:59:47.197Z",
+      "raw":{"from":"2016-06-05T11:59:47.197Z","to":"2022-01-13T11:59:47.197Z"}
+            },
+        "rangeRaw":{"from":"2016-06-05T11:59:47.197Z","to":"2022-01-13T11:59:47.197Z"},
+           "interval":"1d","intervalMs":86400000,
+           "targets":[{"columns":"Title,value","metriccolumn":"thermo","pivotcolumn":"invoice","qry":"",
+                       "refId":"A","target":"upper_50","template":"2427","timecolumn":"tm",
+                       "timeformat":"yyyy/MM/dd HH:mm:ss","type":"timeserie"}
+                      ,{"metriccolumn":"humi","pivotcolumn":"invoice","qry":"",
+                        "refId":"B","template":"2427","timecolumn":"tm","timeformat":"yyyy/MM/dd HH:mm:ss","type":"timeserie"}],"maxDataPoints":643,"scopedVars":{"__interval":{"text":"1d","value":"1d"},"__interval_ms":{"text":86400000,"value":86400000}}}
+  */
+  //var req={"timezone":"utc","panelId":2,"dashboardId":1,"range":{"from":"2019-03-08T19:00:00.157Z","to":"2019-03-18T19:00:00.157Z","raw":{"from":"now-240h","to":"now"}},"rangeRaw":{"from":"now-240h","to":"now"},"interval":"10m","intervalMs":600000,"targets":[{"columns":"Title,value","metriccolumn":"tm","pivotcolumn":"invoice","qry":"","refId":"A","target":"upper_50","template":"2427","timecolumn":"tm","timeformat":"yyyy/MM/dd HH:mm:ss","type":"table"}],"maxDataPoints":1400,"scopedVars":{"__interval":{"text":"10m","value":"10m"},"__interval_ms":{"text":600000,"value":600000}}}
+  
+  var range=req.range;
+  var interval=parseInt(req.intervalMs);
+  var maxDataPoints=parseInt(req.maxDataPoints);
+  var targets=req.targets;
+  var timeseries=[];
+  var from=new Date(range.from);
+  var to=new Date(range.to);
+  engine.serverlog("range:"+range.from+"~"+range.to);
+  engine.serverlog("range:"+from.getTime()+"~"+to.getTime());
+  //out.println(JSON.stringify(req));
+  var fromtm=""+from.getTime();
+  var totm=""+to.getTime();
+  var alls=new MAP();
+  var types=new MAP();
+  for(var i=0;i<targets.length;i++){
+    var type=targets[i].type;
+    var timecolumn=targets[i].timecolumn;
+    var metriccolumn=targets[i].metriccolumn;
+    var pivotcolumn=targets[i].pivotcolumn;
+    var timeformat=targets[i].timeformat;
+    if(timecolumn!="select" && metriccolumn!="select"){
+      if(pivotcolumn=="select") pivotcolumn="";
+      if(timeformat==null) timeformat="yyyy/MM/dd HH:mm:ss";
+      var fromdt="";
+      var todt="";
+      if(timeformat=="timestamp"){
+        fromdt=""+from.getTime();
+        todt=""+to.getTime();
+      }else{
+        fromdt=engine.dateformat2(""+from.getTime(),timeformat);
+        todt=engine.dateformat2(""+to.getTime(),timeformat);
+      }
+      
+      var tid=targets[i].template;
+      if(tid!=null&&!cmdbutil.isNumeric(tid)){
+        tid=cmdbutil.findTid(_conn,null,tid);
+      }
+      var sinfo=new MAP();
+      sinfo.put("type",type);
+      var columns=[];
+      columns.push({"text":timecolumn,"type":"time"});
+      if(pivotcolumn!=""){
+        columns.push({"text":pivotcolumn,"type":"string"});
+      }
+      columns.push({"text":metriccolumn,"type":"number"});
+      sinfo.put("columns",columns);
+      types.put(metriccolumn,sinfo);
+
+      var qry=targets[i].qry;
+      var type=targets[i].type;
+      if(qry==null||qry=="") qry="";
+      else qry+="&";
+      qry+=timecolumn+">="+fromdt+"&"+timecolumn+"<"+todt;
+      engine.serverlog("query:"+tid+":"+qry+":"+timecolumn+","+metriccolumn+","+pivotcolumn);
+      var objs=cmdbutil.getInstances2P(_conn,tid,qry,timecolumn,0,100000,timecolumn+","+metriccolumn+","+pivotcolumn);
+      //out.println(objs.length);
+      var lasttime=0;
+      for(var j=0;j<objs.length;j++){
+        if(type=="table"){
+          if(pivotcolumn=="" || pivotcolumn=="select"){
+            var tmval=objs[j].getString(timecolumn);
+            var metricval=objs[j].getString(metriccolumn);
+            var target=alls.get(metriccolumn);
+            if(target==null) {
+              target=[];
+              alls.put(metriccolumn,target);
+            }
+            var item=[];
+            var nowtm=engine.datetostamp(tmval,timeformat);
+            if(nowtm-lasttime>interval){
+              item.push(engine.datetostamp(tmval,timeformat));
+              item.push(parseFloat(metricval));
+              target.push(item);
+              lasttime=nowtm;
+            }
+          }else{
+            var tmval=objs[j].getString(timecolumn);
+            var metricval=objs[j].getString(metriccolumn);
+            var pivotval=objs[j].getString(pivotcolumn);
+            var target=alls.get(metriccolumn);
+            if(target==null) {
+              target=[];
+              alls.put(metriccolumn,target);
+            }
+            var nowtm=engine.datetostamp(tmval,timeformat);
+            if(objs.length<1000 || nowtm-lasttime>interval){
+              lasttime=nowtm;
+              var item=[];
+              item.push(engine.datetostamp(tmval,timeformat));
+              item.push(pivotval);
+              item.push(parseFloat(metricval));
+              target.push(item);
+            }
+          }
+        }else{
+          if(pivotcolumn=="" || pivotcolumn=="select"){
+            var tmval=objs[j].getString(timecolumn);
+            var metricval=objs[j].getString(metriccolumn);
+            var target=alls.get(metriccolumn);
+            if(target==null) {
+              target=[];
+              alls.put(metriccolumn,target);
+            }
+            var nowtm=engine.datetostamp(tmval,timeformat);
+            if(objs.length<1000 ||nowtm-lasttime>interval){
+              lasttime=nowtm;
+              var item=[];
+              item.push(parseFloat(metricval));
+              item.push(engine.datetostamp(tmval,timeformat));
+              item.push(parseFloat(metricval));
+              item.push(parseFloat(metricval));
+              target.push(item);
+            }
+          }else{
+            var tmval=objs[j].getString(timecolumn);
+            var metricval=objs[j].getString(metriccolumn);
+            var pivotval=objs[j].getString(pivotcolumn);
+            var target=alls.get(metriccolumn+"_"+pivotval);
+            if(target==null) {
+              target=[];
+              alls.put(metriccolumn+"_"+pivotval,target);
+            }
+            var nowtm=engine.datetostamp(tmval,timeformat);
+            if(objs.length<1000 ||nowtm-lasttime>interval){
+              lasttime=nowtm;
+              var item=[];
+              item.push(parseFloat(metricval));
+              item.push(engine.datetostamp(tmval,timeformat));
+              item.push(parseFloat(metricval));
+              item.push(parseFloat(metricval));
+              target.push(item);
+            }
+          }
+        }
+      }
+    }
+  }
+  var keys=alls.keys();
+  while(keys.hasMoreElements()){
+    var key=keys.nextElement();
+    var info=types.get(key);
+    var points=alls.get(key);
+    if(info!=null && info.get("type")=="table"){
+      var obj={};
+      obj.type=info.get("type");
+      obj.columns=info.get("columns");
+      obj.rows=points;
+      timeseries.push(obj);
+    }else{
+      var obj={};
+      obj.target=key;
+      obj.datapoints=points;
+      timeseries.push(obj);
+    }
+  }
+  out.println(JSON.stringify(timeseries));
+}catch(t){
+  out.println("query:"+t.toString());
+}

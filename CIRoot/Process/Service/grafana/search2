@@ -1,0 +1,70 @@
+/*VersionNumber:null*/
+//__nashorn__
+var state="01";
+try{
+  var tid=cmdbutil.findTid(_conn,null,"CIRoot");
+  var ret=[];
+  var item={};
+  var body=request.getBody()
+  engine.serverlog("search2:"+body);
+  if(body!=null && body.length()>10){
+    var req=JSON.parse(body);
+    var stid=req.template;
+    engine.serverlog("search2:stid="+stid);
+    if(cmdbutil.isNumeric(stid) && cmdbutil.useTemplate(_conn,stid)!=null){
+      tid=stid;
+    }else if(cmdbutil.findTid(_conn,null,stid)!=null){
+      tid=cmdbutil.findTid(_conn,null,stid);
+    }
+  }
+  state="02";
+  engine.serverlog("search2:"+tid);
+  var cur=cmdbutil.useTemplate(_conn,tid);
+  if(cur!=null && cur.getString("EXTEND")!=""){
+    item.text="..";
+    item.value=cur.getString("EXTEND");
+    ret.push(item);
+  }
+  var o={};
+  if(cur!=null){
+    var nitem={};
+    var ctitle=cur.getString("TNAME");
+    if(ctitle=="") ctitle="CIRoot";
+
+    nitem.text=ctitle;
+    nitem.value=cur.getString("TID");
+    ret.push(nitem);
+
+  	state="03";
+    var objs=cmdbutil.getChildTemplates(_conn,tid);
+    if(objs!=null){
+      for( i=0;i<objs.length;i++){
+        var t={};
+        var m=objs[i];
+        if(m!=null){
+          t.text=ctitle+"/"+m.getString("TNAME");
+          t.value=m.getString("TID");
+          ret.push(t);
+        }
+      }
+    }
+    o.templates=ret;
+    state="04";
+
+    var columns=[];
+    var attribs=cmdbutil.findVisibleAttributeDatas(_conn,tid);
+    for( i=0;i<attribs.length;i++){
+      var t={};
+      var m=attribs[i];
+      if(m!=null){
+        t.text=m.getString("ANAME");
+        t.value=m.getString("ANAME");
+        columns.push(t);
+      }
+    }
+    o.columns=columns;
+  }
+  out.println(JSON.stringify(o));
+}catch(t){
+  engine.serverlog("grafana/search2:"+state+":"+t.toString());
+}

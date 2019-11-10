@@ -1,0 +1,11 @@
+/*VersionNumber:null*/
+//__nashorn__
+var tagKeys = [
+  {"type":"string","text":"Country"}
+];
+var countryTagValues = [
+  {''text'': ''SE''},
+  {''text'': ''DE''},
+  {''text'': ''US''}
+];
+out.println(""+JSON.stringify(countryTagValues));
