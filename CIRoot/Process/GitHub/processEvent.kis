@@ -1,0 +1,10 @@
+/*VersionNumber:null*/
+importPackage(java.io)
+var readData=request.readData;
+var data=manager.parseJSON(readData);
+engine.serverlog("STATE01:"+data.get("commits"));
+if(data.get("commits")!=null){
+  manager.pullAllGit("origin","master");
+	engine.serverlog("STATE02:"+data.get("commits"));
+  cmdbutil.processGitHubMessage(_conn,data);
+}
