@@ -1,7 +1,0 @@
-/*VersionNumber:null*/
-//__params__:host,domain,user,pwd,name
-var tid=cmdbutil.findTid(_conn,null,"CIRoot/");
-tid=cmdbutil.createNestedTemplate(_conn,"CIRoot/Process/test/subtest1/subtest2")
-out.println(""+tid);
-tid=cmdbutil.findTid(_conn,null,"CIRoot/Process/test/subtest1/subtest2");
-out.println(""+tid);
