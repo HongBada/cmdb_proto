@@ -1,0 +1,10 @@
+/*VersionNumber:null*/
+importPackage(java.util.regex) 
+
+var sql="SELECT A.Title,B.HanName FROM cmdb.Api A,cmdb.ReturnType B WHERE A.RetType=B.Title ";
+var ret =cmdbutil.createViewForSelect(_conn,sql,"testview");
+out.println(ret);
+var rs=cmdbutil.executeSql(_conn,"select * from testview");
+while(rs.next()){
+  out.println(rs.getString(1)+":"+rs.getString("HanName"));
+}
