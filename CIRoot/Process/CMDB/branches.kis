@@ -1,12 +1,7 @@
 /*VersionNumber:null*/
 //__clientscript__
-//처음 하는 변화
-
-
-
 
 setTimeout(function(){
 	loadcomposer("/dunamis/assets/cmdbseq.kis")  
   },1000)  
-//---------------//
 
