@@ -4,4 +4,7 @@
 setTimeout(function(){
 	loadcomposer("/dunamis/assets/cmdbseq.kis")  
   },1000)  
+  
+  
+  
 //---------------//
