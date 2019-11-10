@@ -1,5 +1,8 @@
 /*VersionNumber:null*/
 //__params__:host,token
+
+
+
 if(host=="") host="www.crossplatform.co.kr:5000";
 //token=engine.callScript("Process/innerwave/gettoken.kis").trim()
 token="gAAAAABduXkNSK_Q0XSPWpfqu8SUT37eUirjRy6urwyhkNy77RqoBGlBnjalfxqo7A8IM7Jqpme8Sx4zFL6Y5fFygcosEUuJhbhIvAWPeG_otdmelUNoB-XZRmQestgzAyqWIucqVUryPbDC544DovYN5SD2lepjSQ";
