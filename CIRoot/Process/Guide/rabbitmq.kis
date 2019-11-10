@@ -1,0 +1,7 @@
+/*VersionNumber:null*/
+importPackage(Packages.flashbox.CMDB)
+out.println("1");
+//RabbitMQ.setRabbitMQ("last.dunamisplatform.co.kr",17672,"cmdb","cmdbroot","mytag");
+
+//RabbitMQ.sendMessage("HellowWorld");
+out.println(""+manager.getInstance().rabbitMqManager.stop());
