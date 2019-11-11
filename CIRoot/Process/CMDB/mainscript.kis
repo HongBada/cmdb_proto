@@ -1,0 +1,503 @@
+/*VersionNumber:null*/
+//__clientscript__
+var settingmode="";
+var settinghost="";
+var settingdocker="";  
+function initSetting(mode,host,docker){
+    $('#settingarea')
+    .val("");
+    settingmode=mode;
+    settinghost=host;
+    settingdocker=docker;
+    readSetting(host,docker);
+}
+function readSetting(host,name){
+      blockui();
+    if(settingmode=="registlatest"){
+      window._DHTMLX.getURL("/Process/CMDB/registLatest.kis?mode=edit&host="+host+"&target="+name,function(error,text){
+        $('#settingarea')
+        .val(text);
+        unblockui();
+      })    
+      
+    }else if(settingmode=="updatelatest"){
+      window._DHTMLX.getURL("/Process/CMDB/updateLatest.kis?mode=edit&host="+host+"&target="+name,function(error,text){
+        $('#settingarea')
+        .val(text);
+        unblockui();
+      })    
+    }else{
+      window._DHTMLX.getURL("/Process/CMDB/readsetting.kis?mode="+settingmode+"&host="+host+"&name="+name,function(error,text){
+        $('#settingarea')
+        .val(text);
+        unblockui();
+      })    
+    }
+} 
+  
+function inserttags(host){
+  window._DHTMLX.getURL(host,function(error,text){
+    $('#gridcontainer')
+    .html(text);
+  })    
+} 
+
+function applySetting(){
+    var script=$('#settingarea').val();
+    //alert(script.substring(0,300));
+    //alert(script.substring(300));
+    if(settingmode!="" && settingdocker!="" && settinghost!=""){
+      blockui();
+      if(settingmode=="registlatest"){
+        window._DHTMLX.postDataAsyncText("/Process/CMDB/registLatest.kis",
+                "mode=execute&name="+settingdocker+"&host="+settinghost+"&script="+encodeURIComponent(script),
+                function(text){
+                          $('#settingarea').val(text);
+                          unblockui();
+                },
+                function(){unblockui();})  
+      }else if(settingmode=="updatelatest"){
+        window._DHTMLX.postDataAsyncText("/Process/CMDB/updateLatest.kis",
+                "mode=execute&name="+settingdocker+"&host="+settinghost+"&script="+encodeURIComponent(script),
+                function(text){
+                          $('#settingarea').val(text);
+                          unblockui();
+                },
+                function(){unblockui();})  
+        
+      }else{
+        window._DHTMLX.postDataAsyncText("/Process/CMDB/applySetting.kis",
+                "mode="+settingmode+"&name="+settingdocker+"&host="+settinghost+"&setting="+encodeURIComponent(script),
+                function(text){
+                          $('#settingarea').val(text);
+                          unblockui();
+                },
+                function(){unblockui();})  
+        
+      }
+    }
+}
+  
+
+function loadHostGuages(){
+  window._DHTMLX.getURL("/Process/CMDB/loadhostguages.kis",function(error,text){
+    $('#gridcontainer')
+    .html(text);
+  })    
+}  
+
+function installcomponents(){
+  window._DHTMLX.getURL("/Process/CMDB/actionlist.kis",function(error,text){
+    $('#gridcontainer')
+    .html(text);
+  })    
+}  
+  
+function installedcomponents(host){
+  window._DHTMLX.getURL("/Process/CMDB/containerlist.kis?hostname="+host,function(error,text){
+    $('#gridcontainer')
+    .html(text);
+  })    
+} 
+  
+function cleardiv(){    
+$('#gridcontainer')
+.html("<iframe  width='100%' height='100%' frameborder='0'></iframe>");
+}
+function loadcadvisor(host){    
+    loadcomposer("/Process/CMDB/cadvisor.kis?host="+host+":18080")
+}  
+function loadcomposer(url){    
+$('#gridcontainer')
+.html("<iframe src='"+url+"' width='100%' height='100%' frameborder='0'></iframe>");
+}
+
+
+function loaddata(tname){
+$('#gridcontainer').html("<iframe src='/dunamis/assets/tploader.kis?tname="+tname+"' width='100%' height='100%' frameborder='0'></iframe>");
+}
+var selectedhost=null;
+function onselecthost(tname){
+    selectedhost=($('#selecthost option:selected').val());
+}  
+  
+function execute(cid){
+    $('#scriptarea').val($('#script_'+cid).val());
+}
+function confirmDialog(msg,func){
+            bootbox.confirm({
+                title: 'Confirm dialog',
+                message: msg,
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-link'
+                    }
+                },
+                callback: function (result) {
+                  func();
+                }
+            });    
+  }  
+
+function alertDialog(msg){
+            bootbox.alert({
+                title: 'Alert!',
+                message: msg
+            });
+  }  
+
+function blockui(){
+            $.blockUI({ 
+                message: '<i class="icon-spinner4 spinner"></i>',
+                overlayCSS: {
+                    backgroundColor: '#1b2024',
+                    opacity: 0.8,
+                    zIndex: 1200,
+                    cursor: 'wait'
+                },
+                css: {
+                    border: 0,
+                    color: '#fff',
+                    padding: 0,
+                    zIndex: 1201,
+                    backgroundColor: 'transparent'
+                }
+            });    
+}  
+  
+function blockui(){
+            $.blockUI({ 
+                message: '<i class="icon-spinner4 spinner"></i>',
+                overlayCSS: {
+                    backgroundColor: '#1b2024',
+                    opacity: 0.8,
+                    zIndex: 1200,
+                    cursor: 'wait'
+                },
+                css: {
+                    border: 0,
+                    color: '#fff',
+                    padding: 0,
+                    zIndex: 1201,
+                    backgroundColor: 'transparent'
+                }
+            });    
+}  
+  
+function unblockui(){
+    $.unblockUI();
+}
+
+function stopDocker(host,dockername){
+      blockui();
+      window._DHTMLX.postDataAsyncText("/Process/CMDB/executeScript.kis",
+              "host="+host+"&script=docker stop "+dockername,
+              function(text){
+        				installedcomponents(host)
+        				unblockui();
+      		  },
+              function(){unblockui();})   
+}
+function removeDocker(host,dockername){
+      blockui();
+      window._DHTMLX.postDataAsyncText("/Process/CMDB/executeScript.kis",
+              "host="+host+"&script=docker rm "+dockername,
+              function(text){
+        				installedcomponents(host)
+        				unblockui();
+      		  },
+              function(){unblockui();})   
+}
+
+function startDocker(host,dockername){
+      blockui();
+      window._DHTMLX.postDataAsyncText("/Process/CMDB/executeScript.kis",
+              "host="+host+"&script=docker start "+dockername,
+              function(text){
+        				installedcomponents(host)
+        				unblockui();
+      		  },
+              function(){unblockui();})   
+}
+  
+function executeScript(){
+    var script=$('#scriptarea').val();
+    var idx=script.indexOf("=====");
+    if(idx>0){
+      script=script.substring(0,idx).trim();
+      $('#scriptarea').val(script);
+    }
+    if(selectedhost==null){
+      alertDialog("select host");
+    }else{
+      blockui();
+      window._DHTMLX.postDataAsyncText("/Process/CMDB/executeScript.kis",
+              "host="+selectedhost+"&script="+encodeURIComponent(script),
+              function(text){
+            			$('#scriptarea').val(script+"\n===============\n"+text);
+        				unblockui();
+      		  },
+              function(){unblockui();})   
+    }
+}
+  
+var Modals = function () {
+    var _componentModalRemote = function() {
+        $('#modal_default').on('show.bs.modal', function() {
+          /*
+            $(this).find('.modal-body').load('../../../../global_assets/demo_data/wizard/education.html', function() {
+                _componentSelect2();
+            });
+          */
+        });
+        $('#executebutton').on('click', function() {
+			alert('execute')
+        });
+
+    };
+
+    // Modal callbacks
+    var _componentModalCallbacks = function() {
+        // onShow callback
+        $('#modal_script').on('hide.bs.modal', function() {
+            alert('onShow callback fired.')
+        });
+
+        // onShown callback
+        $('#modal_script').on('shown.bs.modal', function() {
+            alert('onShown callback fired.')
+        });
+    };
+
+    // Bootbox extension
+    var _componentModalBootbox = function() {
+        if (typeof bootbox == 'undefined') {
+            console.warn('Warning - bootbox.min.js is not loaded.');
+            return;
+        }
+
+        // Alert dialog
+        $('#alert').on('click', function() {
+            bootbox.alert({
+                title: 'Check this out!',
+                message: 'Native alert dialog has been replaced with Bootbox alert box.'
+            });
+        });
+
+        $('#confirm').on('click', function() {
+            bootbox.confirm({
+                title: 'Confirm dialog',
+                message: 'Native confirm dialog has been replaced with Bootbox confirm box.',
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-link'
+                    }
+                },
+                callback: function (result) {
+                    bootbox.alert({
+                        title: 'Confirmation result',
+                        message: 'Confirm result: ' + result
+                    });
+                }
+            });
+        });
+
+        // Prompt dialog
+        $('#prompt').on('click', function() {
+            bootbox.prompt({
+                title: 'Please enter your name',
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-link'
+                    }
+                },
+                callback: function (result) {
+                    if (result === null) {                                             
+                        bootbox.alert({
+                            title: 'Prompt dismissed',
+                            message: 'You have cancelled this damn thing'
+                        });                              
+                    } else {
+                        bootbox.alert({
+                            title: 'Hi <strong>' + result + '</strong>',
+                            message: 'How are you doing today?'
+                        });                              
+                    }
+                }
+            });
+        });
+
+        // Prompt dialog with default value
+        $('#prompt_value').on('click', function() {
+            bootbox.prompt({
+                title: 'What is your real name?',
+                value: 'Eugene Kopyov',
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-link'
+                    }
+                },
+                callback: function(result) {
+                    if (result === null) {                                             
+                        bootbox.alert({
+                            title: 'Prompt dismissed',
+                            message: 'You have cancelled this damn thing'
+                        });                              
+                    } else {
+                        bootbox.alert({
+                            title: 'Hi <strong>' + result + '</strong>',
+                            message: 'How are you doing today?'
+                        });                              
+                    }
+                }
+            });
+        });
+
+        // Custom bootbox dialog
+        $('#bootbox_custom').on('click', function() {
+            bootbox.dialog({
+                message: 'I am a custom dialog',
+                title: 'Custom title',
+                buttons: {
+                    success: {
+                        label: 'Success!',
+                        className: 'btn-success',
+                        callback: function() {
+                            bootbox.alert({
+                                title: 'Success!',
+                                message: 'This is a great success!'
+                            });
+                        }
+                    },
+                    danger: {
+                        label: 'Danger!',
+                        className: 'btn-danger',
+                        callback: function() {
+                            bootbox.alert({
+                                title: 'Ohh noooo!',
+                                message: 'Uh oh, look out!'
+                            });
+                        }
+                    },
+                    main: {
+                        label: 'Click ME!',
+                        className: 'btn-primary',
+                        callback: function() {
+                            bootbox.alert({
+                                title: 'Hooray!',
+                                message: 'Something awesome just happened!'
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // Custom bootbox dialog with form
+        $('#bootbox_form').on('click', function() {
+            bootbox.dialog({
+                    title: 'This is a form in a modal.',
+                    message: '<div class="row">  ' +
+                        '<div class="col-md-12">' +
+                            '<form action="">' +
+                                '<div class="form-group row">' +
+                                    '<label class="col-md-4 col-form-label">Name</label>' +
+                                    '<div class="col-md-8">' +
+                                        '<input id="name" name="name" type="text" placeholder="Your name" class="form-control">' +
+                                        '<span class="form-text text-muted">Here goes your name</span>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="form-group row">' +
+                                    '<label class="col-md-4 col-form-label">How awesome is this?</label>' +
+                                    '<div class="col-md-8">' +
+                                        '<div class="form-check">' +
+                                            '<label class="form-check-label">' +
+                                                '<input type="radio" class="form-check-input" name="awesomeness" id="awesomeness-0" value="Really awesome" checked>' +
+                                                'Really awesomeness' +
+                                            '</label>' +
+                                        '</div>' +
+                                        '<div class="form-check">' +
+                                            '<label class="form-check-label">' +
+                                                '<input type="radio" class="form-check-input" name="awesomeness" id="awesomeness-1" value="Super awesome">' +
+                                                'Super awesome' +
+                                            '</label>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</form>' +
+                        '</div>' +
+                    '</div>',
+                    buttons: {
+                        success: {
+                            label: 'Save',
+                            className: 'btn-success',
+                            callback: function () {
+                                var name = $('#name').val();
+                                var answer = $('input[name="awesomeness"]:checked').val()
+                                bootbox.alert({
+                                    title: 'Hello ' + name + '!',
+                                    message: 'You have chosen <strong>' + answer + '</strong>.'
+                                });
+                            }
+                        }
+                    }
+                }
+            );
+        });
+    };
+
+    // Select2
+    var _componentSelect2 = function() {
+        if (!$().select2) {
+            console.warn('Warning - select2.min.js is not loaded.');
+            return;
+        }
+
+        // Initialize
+        $('.form-control-select2').select2({
+            minimumResultsForSearch: Infinity
+        });
+    };
+
+
+    //
+    // Return objects assigned to module
+    //
+
+    return {
+        initComponents: function() {
+            _componentModalRemote();
+            _componentModalCallbacks();
+            _componentModalBootbox();
+        }
+    }
+}();
+
+
+// Initialize module
+// ------------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
+    Modals.initComponents();
+});
+

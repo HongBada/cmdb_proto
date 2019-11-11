@@ -27,9 +27,9 @@
 	  <h3> $host$ Usage</h3>
 	</div>
 	<div class="panel panel-primary">
-          <div class="panel-heading">
+          <1--div class="panel-heading">
             <h3 class="panel-title">Overview</h3>
-          </div>
+          </div-->
           <div id="usage-gauge" class="panel-body"></div>
 	</div>
       
