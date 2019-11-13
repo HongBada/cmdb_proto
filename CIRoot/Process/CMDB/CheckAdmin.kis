@@ -1,0 +1,9 @@
+/*VersionNumber:null*/
+  var objs=cmdbutil.getInstances2P(_conn,"Security/Hosts/DockerHost",null,null,0,1000,true);
+  var buffer="";
+  for(var i=0;i<objs.length;i++){
+      var host=objs[i].getString("AccessIP");          
+      buffer+="<iframe src='/Process/CMDB/hostmonitor.kis?host="+host+":18080' width='100%' height='200' frameborder='0'></iframe>"
+            
+  }
+  out.println(buffer);
