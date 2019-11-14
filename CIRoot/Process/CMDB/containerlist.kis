@@ -1,0 +1,124 @@
+/*VersionNumber:null*/
+  <script mode="server">
+  
+var host=request.getParameter("hostname");
+var script="docker ps -a ";
+var ret=null;  
+try{  
+	ret=cmdbutil.executeSSH(_conn,"system",host,script,null);
+}catch(t){
+    ret=null;
+}
+if(ret==null||ret.length()<10){
+ out.println("<div class='mb-3'><h6 class='font-weight-semibold'>Can not load data.</h6></div>");
+}else{
+  var lines=ret.split(engine.cr())
+  var tokens="ago,hours,minutes,hour,minute,seconds,days,weeks,months".split(",")
+  var objs=[]
+  for(var i=1;i<lines.length;i++){
+    var up=lines[i].indexOf("Up");
+    if(up<0) up=lines[i].indexOf("Exit");
+    var map=new MAP();
+    if(up>0){
+      var first=lines[i].substring(0,up).trim();
+      var second=lines[i].substring(up).trim();
+      var lastcomma=first.lastIndexOf('"');
+      //out.println(lastcomma+":"+second)
+      if(lastcomma>0){
+        objs.push(map);
+        var created=first.substring(lastcomma+1).trim();
+        map.put("created",created);
+        var firstcomma=first.indexOf('"');
+        var command=first.substring(firstcomma+1,lastcomma);
+        var fields=first.substring(0,firstcomma).split(" ");
+        var id=fields[0];
+        var image=fields[1];
+        map.put("id",id.trim());
+        map.put("image",image.trim());
+        var lastidx=-1;
+        for(var k=0;k<tokens.length;k++){
+          if(second.indexOf(tokens[k])>0){
+            lastidx=second.indexOf(tokens[k])+tokens[k].length;
+            break;
+          }
+        }
+        if(lastidx>0){
+          var status=second.substring(0,lastidx+1).trim()
+          var ports=second.substring(lastidx+1).trim();
+          var lastblank=ports.lastIndexOf(" ");
+          map.put("status",status);
+          //map.put("ports",ports);
+          
+          if(lastblank>0){
+            var name=ports.substring(lastblank).trim();
+            ports=ports.substring(0,lastblank).trim();
+            map.put("ports",ports);
+            map.put("name",name);
+          }else{
+            var name=ports.trim();
+            ports="";
+            map.put("ports",ports);
+            map.put("name",name);
+          }
+        }
+      }
+    }
+  }
+
+
+
+      var i=0;
+      var open=false;
+      for(i=0;i<objs.length;i++){
+         if(i%3==0){
+          out.println("<div class='row'>");
+          open=true;       
+         }
+         var buttonname="Start";
+         var scriptname="startDocker('"+host+"','"+objs[i].getString("name")+"')";
+    	 var settings="";
+    	 var update="";
+    	 var remove="";
+         if(objs[i].getString("status").indexOf("Up")>=0){
+         	buttonname="Stop";
+         	scriptname="stopDocker('"+host+"','"+objs[i].getString("name")+"')";
+             if(objs[i].getString("image").indexOf("prometheus")>=0){
+                  settings="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"prometheus\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Settings<i class='icon-play3 ml-2'></i></button>";
+             }
+             if(objs[i].getString("image").indexOf("cmdb")>=0){
+                  settings="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"cmdbproto\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Settings<i class='icon-play3 ml-2'></i></button>";
+                  update="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"updatelatest\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Update<i class='icon-play3 ml-2'></i></button>";
+             }
+             if(objs[i].getString("name").indexOf("proto4")>=0){
+                  settings="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"cmdbproto\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Settings<i class='icon-play3 ml-2'></i></button>";
+                  update="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"registlatest\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Regist<i class='icon-play3 ml-2'></i></button>";
+             }
+    	 }else{
+                  remove="<button class='btn btn-light' type='button' onclick='javascript:removeDocker(\""+host+"\",\""+objs[i].getString("name")+"\")'>Remove<i class='icon-play3 ml-2'></i></button>";
+      
+    	  }
+                 
+         var buffer="<div class='col-md-4'>\
+            <div class='mb-3'>\
+              <h6 class='font-weight-semibold'>"+objs[i].getString("name")+"</h6>\
+              <p class='mb-3'></p>\
+              <div class='form-group'>\
+                <textarea class='form-control elastic' cols='6' id='script_"+objs[i].getString("name")+"' placeholder='Textarea' rows='6'>"+objs[i].getString("image")+engine.cr()+objs[i].getString("created")+engine.cr()+objs[i].getString("status")+engine.cr()+objs[i].getString("ports")+"</textarea>\
+              </div>\
+<button class='btn btn-light'  type='button' onclick=\"javascript:"+scriptname+"\">"+buttonname+"<i class='icon-play3 ml-2'></i></button>\
+              "+remove+"\
+              "+settings+"\
+              "+update+"\
+            </div>\
+          </div>";
+         out.println(buffer);        
+         if(i%3==2){
+          out.println("</div>");
+          open=false;       
+         }            
+      }
+      if(open){
+          out.println("</div>");
+      }     
+ }                
+    </script>
