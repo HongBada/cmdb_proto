@@ -27,14 +27,12 @@
 			<span>대시보드</span>
 		</a>
 	</li>
-	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-copy'></i> <span>프로젝트관리</span></a>
+	<!--li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-copy'></i> <span>프로젝트관리</span></a>
 		<ul data-submenu-title='Layouts' class='nav nav-group-sub'>
 			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/Projects")'>프로젝트 목록</a>
 			</li>
-			<!--li class='nav-item'><a class='nav-link active' href='index.html'>프로젝트 만들기</a>
-			</li-->
 		</ul>
-	</li>
+	</li-->
 	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>사용자관리</span></a>
 		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
 			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/User")'>사용자 목록</a>
@@ -71,9 +69,6 @@
 			</li>
 			<li class='nav-item'><a class='nav-link' href='javascript:installcomponents()'>컨테이너 설치</a>
 			</li>
-			<li class='nav-item'><a class='nav-link' href='javascript:installapplications()'>애플리케이션 설치</a>
-			</li>
-                                 
 			<li class='nav-item-divider'></li>
 		</ul>
 	</li>

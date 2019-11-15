@@ -11,6 +11,13 @@ function initSetting(mode,host,docker){
     settingdocker=docker;
     readSetting(host,docker);
 }
+function installapps(url){
+      blockui();
+      window._DHTMLX.getURL(url,function(error,text){
+        alert(text);
+        unblockui();
+      })    
+}
 function readSetting(host,name){
       blockui();
     if(settingmode=="registlatest"){
@@ -24,6 +31,12 @@ function readSetting(host,name){
       window._DHTMLX.getURL("/Process/CMDB/updateLatest.kis?mode=edit&host="+host+"&target="+name,function(error,text){
         $('#settingarea')
         .val(text);
+        unblockui();
+      })    
+    }else if(settingmode=="installapps"){
+      window._DHTMLX.getURL("/Process/CMDB/applicationlist.kis?mode=edit&host="+host+"&target="+name,function(error,text){
+        $('#modal-body')
+          .html(text);
         unblockui();
       })    
     }else{
@@ -256,18 +269,12 @@ function executeScript(){
   
 var Modals = function () {
     var _componentModalRemote = function() {
-        $('#modal_default').on('show.bs.modal', function() {
-          /*
-            $(this).find('.modal-body').load('../../../../global_assets/demo_data/wizard/education.html', function() {
-                _componentSelect2();
-            });
-          */
+        $('#modal_remote').on('show.bs.modal', function() {
+            //$(this).find('.modal-body').load('/Process/CMDB/applicationlist.kis', function() {
+                //_componentSelect2();
+            //});
         });
-        $('#executebutton').on('click', function() {
-			alert('execute')
-        });
-
-    };
+    };  
 
     // Modal callbacks
     var _componentModalCallbacks = function() {

@@ -89,17 +89,19 @@ if(ret==null||ret.length()<10){
              if(objs[i].getString("image").indexOf("cmdb")>=0){
                   settings="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"cmdbproto\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Settings<i class='icon-play3 ml-2'></i></button>";
                   update="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"updatelatest\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Update<i class='icon-play3 ml-2'></i></button>";
-                  installs="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"installapps\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Install Apps<i class='icon-play3 ml-2'></i></button>";
+                  installs="<button class='btn btn-light' data-target='#modal_remote' data-toggle='modal' type='button' onclick='javascript:initSetting(\"installapps\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Install Apps<i class='icon-play3 ml-2'></i></button>";
              }
              if(objs[i].getString("name").indexOf("proto4")>=0){
                   settings="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"cmdbproto\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Settings<i class='icon-play3 ml-2'></i></button>";
                   update="<button class='btn btn-light' data-target='#modal_settings' data-toggle='modal' type='button' onclick='javascript:initSetting(\"registlatest\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Regist<i class='icon-play3 ml-2'></i></button>";
+                  installs="<button class='btn btn-light' data-target='#modal_remote' data-toggle='modal' type='button' onclick='javascript:initSetting(\"installapps\",\""+host+"\",\""+objs[i].getString("name")+"\")'>Install Apps<i class='icon-play3 ml-2'></i></button>";
              }
     	 }else{
                   remove="<button class='btn btn-light' type='button' onclick='javascript:removeDocker(\""+host+"\",\""+objs[i].getString("name")+"\")'>Remove<i class='icon-play3 ml-2'></i></button>";
       
     	  }
-                 
+
+    
          var buffer="<div class='col-md-4'>\
             <div class='mb-3'>\
               <h6 class='font-weight-semibold'>"+objs[i].getString("name")+"</h6>\
