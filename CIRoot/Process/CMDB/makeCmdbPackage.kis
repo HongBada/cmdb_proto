@@ -1,12 +1,36 @@
 /*VersionNumber:null*/
 importPackage(java.util);
-var id=engine.getcookie("c_CMDBLOGID");
-var login=engine.getcookie("c_LOGIN");
-var map=new MAP();
-if(id!=null&&login!=null&&id!=""&&login!=""){
-  map.put("_state_","SUCCESS");
-}else{
-  map.put("_state_","FAILURE");
+function appendData(last,json){
+  var a1=manager.parseJSON(json);
+  var data=a1.get("data")
+  for(var i=0;i<data.length;i++){
+    last.add(data[i]);
+  }
 }
-var data=manager.plistToXml(map);
-out.println(data)
+var processCMDB=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"Process/CMDB"),"all",false);
+var processGitHub=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"Process/GitHub"),"all",false);
+var pagescmdb=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"UITemplates/pages/cmdb"),"all");
+var messagedefs=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/MessageDefs"),"all");
+var messagehist=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/MessageHist"),null);
+var registeddockers=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/RegistedDockers"),"all");
+var apiservices=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/ApiServices"),"all");
+var last=new Vector();
+var t1=new MAP();
+t1.put("cmtype","action")
+t1.put("command","cleartemplate")
+t1.put("param1","Process/CMDB,Process/GitHub,CMDB/MessageDefs,CMDB/RegistedDockers,UITemplates/pages/cmdb/index,UITemplates/pages/cmdb/login,CMDB/ApiServices")
+last.add(t1);
+appendData(last,processCMDB);
+appendData(last,processGitHub);
+appendData(last,pagescmdb);
+appendData(last,messagedefs);
+appendData(last,messagehist);
+appendData(last,registeddockers);
+appendData(last,apiservices);
+out.println(manager.plistToJson(map));
+/*
+var map=new MAP();
+map.put("data",last.toArray());
+manager.saveFile("/Library/tomcat/webapps/ROOT/files/cmdb.json",manager.plistToJson(map));
+out.println("total "+last.size());
+*/
