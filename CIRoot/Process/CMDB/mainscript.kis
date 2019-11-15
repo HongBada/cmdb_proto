@@ -33,6 +33,12 @@ function readSetting(host,name){
         .val(text);
         unblockui();
       })    
+    }else if(settingmode=="commitdocker"){
+      window._DHTMLX.getURL("/Process/CMDB/commitDocker.kis?mode=edit&host="+host+"&target="+name,function(error,text){
+        $('#settingarea')
+        .val(text);
+        unblockui();
+      })    
     }else if(settingmode=="installapps"){
       window._DHTMLX.getURL("/Process/CMDB/applicationlist.kis?mode=edit&host="+host+"&target="+name,function(error,text){
         $('#modal-body')

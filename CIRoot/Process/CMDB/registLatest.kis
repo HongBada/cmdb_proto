@@ -1,0 +1,21 @@
+/*VersionNumber:null*/
+var mode=request.getParameter("mode");
+var host=request.getParameter("host");  
+var script=request.getParameter("script");
+var target=request.getParameter("target");  
+
+var registry="cmdbregistry";
+try{  
+  if(mode=="edit"){
+    script="cd /root;rm -r -f admin apps WEB-INF dunamis;docker cp "+target+":/Library/tomcat/webapps/ROOT/admin admin;docker cp "+target+":/Library/tomcat/webapps/ROOT/apps apps;docker cp "+target+":/Library/tomcat/webapps/ROOT/dunamis dunamis;docker cp "+target+":/Library/tomcat/webapps/ROOT/WEB-INF WEB-INF;tar czf cmdb_proto.latest.gz admin apps dunamis WEB-INF;";
+    script+="scp -P 2020 cmdb_proto.latest.gz dunamis@www.crossplatform.co.kr:/home/dunamis/files/cmdb_proto.latest.gz;rm -r -f admin apps dunamis WEB-INF cmdb_proto.latest.gz";
+    var ret=manager.replaceStr(script,";",";"+engine.cr());
+  }else{
+    script=manager.replaceStr(script,engine.cr(),"");
+	var ret=cmdbutil.executeSSH(_conn,"system",host,script,"WW|(yes/no)|yes,WW|password|1qazxsw2".split(","))+engine.cr();
+  }
+  out.println(ret);  
+}catch(t){
+  ret="Can not load data."+t.toString();
+  out.println(ret);
+}
