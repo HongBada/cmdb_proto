@@ -1,0 +1,118 @@
+/*VersionNumber:null*/
+<ul data-nav-type='accordion' class='nav nav-sidebar'>
+	<li class='nav-item-header'>
+		<div class='text-uppercase font-size-xs line-height-xs'>Main</div><i class='icon-menu' title='Main'></i>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>Sub System</span></a>
+		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("/dunamis/assets/cmdbseq.kis")' >CMDB Platform</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:9000")' >Portainer</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:17109")' >RabbitMQ</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:3005")' >Grafana</a>
+			</li>
+              
+			<li class='nav-item ' ><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:9090")'>Prometheus</a>
+			</li>
+                                 
+			<li class='nav-item-divider'></li>
+		</ul>
+	</li>
+	
+    <li class='nav-item'>
+		<a class='nav-link' href='javascript:loadcomposer("/Process/CMDB/grafana.kis")' >
+			<i class='icon-home4'></i>
+			<span>대시보드</span>
+		</a>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-copy'></i> <span>프로젝트관리</span></a>
+		<ul data-submenu-title='Layouts' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/Projects")'>프로젝트 목록</a>
+			</li>
+			<!--li class='nav-item'><a class='nav-link active' href='index.html'>프로젝트 만들기</a>
+			</li-->
+		</ul>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>사용자관리</span></a>
+		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/User")'>사용자 목록</a>
+			</li>
+			<!--li class='nav-item'><a class='nav-link' href='layout_hideable_navbar.html'>사용자 추가</a>
+			</li-->
+			<li class='nav-item-divider'></li>
+		</ul>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>컨테이너 관리</span></a>
+		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
+			<li class='nav-item '><a class='nav-link' href='javascript:loaddata("Security/Hosts/DockerHost")'>호스트 목록</a>
+			</li>
+			<li class='nav-item nav-item-submenu' ><a class='nav-link' href='#'>컨테이너 목록</a>
+              <ul class='nav nav-group-sub'>
+                <script mode="server">
+                  var objs=cmdbutil.getInstances2P(_conn,"Security/Hosts/DockerHost",null,null,0,1000,true);
+                  for(var i=0;i<objs.length;i++){
+                  	out.println('<li class="nav-item"><a class="nav-link" href="javascript:installedcomponents(\''+objs[i].getString('Title')+'\')">'+objs[i].getString('Title')+'</a></li>');
+                  }
+                </script>
+              </ul>
+			</li>
+          
+			<li class='nav-item nav-item-submenu '><a class='nav-link' href='#'>호스트 상테</a>
+              <ul class='nav nav-group-sub'>
+                <script mode="server">
+                  var objs=cmdbutil.getInstances2P(_conn,"Security/Hosts/DockerHost",null,null,0,1000,true);
+                  for(var i=0;i<objs.length;i++){
+                  	out.println('<li class="nav-item"><a class="nav-link" href="javascript:loadcadvisor(\''+objs[i].getString('AccessIP')+'\')">'+objs[i].getString('Title')+'</a></li>');
+                  }
+                </script>
+              </ul>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:installcomponents()'>컨테이너 설치</a>
+			</li>
+                                 
+			<li class='nav-item-divider'></li>
+		</ul>
+	</li>
+  
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>메시지 관리</span></a>
+		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/MessageDefs")'>메시지 분류 목록</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/MessageHist")'>메시지 목록</a>
+			</li>
+			<li class='nav-item-divider'></li>
+		</ul>
+	</li>
+	<li class='nav-item-header'>
+		<div class='text-uppercase font-size-xs line-height-xs'>Service</div><i class='icon-menu' title='Layout options'></i>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>API SERVICE</span></a>
+		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/ApiServices/RabbitMQ")'>RabbitMQ Service</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/ApiServices/Keystone")'>Keystone Service</a>
+			</li>
+			<li class='nav-item-divider'></li>
+			<!--li class='nav-item'><a class='nav-link' href='layout_boxed_default.html'>Boxed with default sidebar</a>
+		</li-->
+		</ul>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-page-break2'></i> <span>푸쉬서비스</span></a>
+		<ul data-submenu-title='Content styling' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/PushHistory")'>푸쉬 결과목록</a>
+			</li>
+			<li class='nav-item'><a class='nav-link disabled' href='content_page_footer.html'>푸쉬 메시지 등록</a>
+			</li>
+		</ul>
+	</li>
+	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-sort'></i> <span>앱 컴포넌트 관리</span></a>
+		<ul data-submenu-title='Vertical navigation' class='nav nav-group-sub'>
+			<li class='nav-item'><a class='nav-link' href='javascript:loaddata("CMDB/PushHistory")'>앱컴포넌트 목록</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("/dunamis/assets/composer.kis")'>앱컴포넌트 작성</a>
+			</li>
+		</ul>
+	</li>
+</ul>
