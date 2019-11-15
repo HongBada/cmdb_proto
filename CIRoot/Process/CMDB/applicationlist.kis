@@ -1,6 +1,6 @@
 /*VersionNumber:null*/
   <script mode="server">
-    var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedDockers",null,null,0,1000,true);
+    var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedApps",null,null,0,1000,true);
     var i=0;
     var open=false;
     for(i=0;i<objs.length;i++){

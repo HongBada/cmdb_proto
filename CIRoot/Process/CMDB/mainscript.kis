@@ -92,7 +92,15 @@ function installcomponents(){
     .html(text);
   })    
 }  
-  
+
+function installapplications(){
+  window._DHTMLX.getURL("/Process/CMDB/applicationlist.kis",function(error,text){
+    $('#gridcontainer')
+    .html(text);
+  })    
+}  
+
+
 function installedcomponents(host){
   window._DHTMLX.getURL("/Process/CMDB/containerlist.kis?hostname="+host,function(error,text){
     $('#gridcontainer')

@@ -71,6 +71,8 @@
 			</li>
 			<li class='nav-item'><a class='nav-link' href='javascript:installcomponents()'>컨테이너 설치</a>
 			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:installapplications()'>애플리케이션 설치</a>
+			</li>
                                  
 			<li class='nav-item-divider'></li>
 		</ul>
