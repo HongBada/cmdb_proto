@@ -1,4 +1,12 @@
 /*VersionNumber:null*/
-/* VersionNumber : null */
-var ret = engine.loadkis("Process/test/test.kis");
+var host=request.getParameter("host");
+var mode=request.getParameter("mode");
+var name=request.getParameter("name");
+host="dunamisplatform"
+name="deellearning"
+var script="curl last.dunamisplatform.co.kr:17008/Process/CMDB/makeCmdbPackage.kis >cmdb.json;";
+script+="docker cp cmdb.json "+name+":/Library/tomcat/webapps/ROOT/log/cmdb.json;";
+script+="docker exec "+name+" curl http://localhost/servlet/flashbox.CMDB.RESTOREFILE?I_TNAME=cmdb.json";
+
+var ret=cmdbutil.executeSSH(_conn,"system",host,script,null);
 out.println(ret);
