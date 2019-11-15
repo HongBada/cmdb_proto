@@ -1,3 +1,3 @@
 /*VersionNumber:null*/
-			var ret = engine.loadkis("/Process/CMDB/logo.kis");
-			out.println(ret);
+var ret = engine.loadkis("/Process/CMDB/logo.kis");
+out.println(ret);
