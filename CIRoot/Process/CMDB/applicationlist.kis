@@ -1,0 +1,30 @@
+/*VersionNumber:null*/
+  <script mode="server">
+    var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedDockers",null,null,0,1000,true);
+    var i=0;
+    var open=false;
+    for(i=0;i<objs.length;i++){
+       if(i%2==0){
+        out.println("<div class='row'>");
+        open=true;       
+       }
+       var buffer="<div class='col-md-6'>\
+          <div class='mb-3'>\
+            <h6 class='font-weight-semibold'>"+objs[i].getString("Title")+":"+objs[i].getString("memo")+"</h6>\
+            <p class='mb-3'></p>\
+            <div class='form-group'>\
+              <textarea class='form-control elastic' cols='6' id='script_"+objs[i].getString("CID")+"' placeholder='Textarea' rows='4'>"+objs[i].getString("commands")+"</textarea>\
+            </div>\
+            <button class='btn btn-light' data-target='#modal_default' data-toggle='modal' type='button' onclick='javascript:execute("+objs[i].getString("CID")+")'>Execute<i class='icon-play3 ml-2'></i></button>\
+          </div>\
+        </div>";
+       out.println(buffer);        
+       if(i%2==1){
+        out.println("</div>");
+        open=false;       
+       }            
+    }
+    if(open){
+        out.println("</div>");
+    }           
+  </script>
