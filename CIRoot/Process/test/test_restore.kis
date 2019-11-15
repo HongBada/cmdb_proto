@@ -1,0 +1,4 @@
+/*VersionNumber:null*/
+/* VersionNumber : null */
+var ret = engine.loadkis("Process/test/test.kis");
+out.println(ret);
