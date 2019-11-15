@@ -83,6 +83,14 @@ function applySetting(){
                           unblockui();
                 },
                 function(){unblockui();})  
+      }else if(settingmode=="dockercommit"){
+        window._DHTMLX.postDataAsyncText("/Process/CMDB/commitDocker.kis",
+                "mode=execute&name="+settingdocker+"&host="+settinghost+"&script="+encodeURIComponent(script),
+                function(text){
+                          $('#settingarea').val(text);
+                          unblockui();
+                },
+                function(){unblockui();})  
         
       }else{
         window._DHTMLX.postDataAsyncText("/Process/CMDB/applySetting.kis",

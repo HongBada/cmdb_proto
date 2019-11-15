@@ -7,14 +7,9 @@ var script=request.getParameter("script");
 try{  
 //  cmdbutil.scpFrom(_conn,registry,"/home/dunamis/files/cmdb_proto-WEB-INF.latest.gz","/Library/WEB-INF.latest.gz");
   if(mode=="edit"){
-    script="scp -P 2020 dunamis@www.crossplatform.co.kr:/home/dunamis/files/cmdb_proto.latest.gz /root/cmdb_proto.latest.gz;";
-    script+="docker cp "+target+":/Library/tomcat/webapps/ROOT/WEB-INF/classes/kisweb/server.xml /root/server.xml;";
-    script+="cd /root;rm -r -f WEB-INF  apps admin ___WEB-INF dunamis;tar zxf /root/cmdb_proto.latest.gz;";
-    script+="docker cp WEB-INF "+target+":/Library/tomcat/webapps/ROOT;"
-    script+="docker cp admin "+target+":/Library/tomcat/webapps/ROOT;"
-    script+="docker cp apps "+target+":/Library/tomcat/webapps/ROOT;"
-    script+="docker cp dunamis "+target+":/Library/tomcat/webapps/ROOT;"
-    script+="docker cp server.xml "+target+":/Library/tomcat/webapps/ROOT/WEB-INF/classes/kisweb/server.xml;rm -r -f server.xml;rm -r -f WEB-INF apps admin dunamis;";
+    script+="docker rm "+target+":/Library/tomcat/webapps/ROOT/log/*;"
+    script+="docker commit "+target+" hongbada/cmdb_proto:3.4.3;";
+    script+="docker login;docker push "+target+" hongbada/cmdb_proto:3.4.3;";
     var ret=manager.replaceStr(script,";",";"+engine.cr());
   }else {
     script=manager.replaceStr(script,engine.cr(),"");
