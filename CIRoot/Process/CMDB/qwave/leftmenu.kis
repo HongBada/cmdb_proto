@@ -5,7 +5,7 @@
 	</li>
 	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>Sub System</span></a>
 		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
-			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("/dunamis/assets/cmdbseq.kis")' >Q Platform</a>
+			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("/dunamis/assets/cmdbseq.kis")' >CMDB Platform</a>
 			</li>
 			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:9000")' >Portainer</a>
 			</li>
@@ -115,4 +115,3 @@
 		</ul>
 	</li>
 </ul>
-                                 
