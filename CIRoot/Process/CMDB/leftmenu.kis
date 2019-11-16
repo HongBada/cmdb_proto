@@ -7,16 +7,12 @@
 		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
 			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("/dunamis/assets/cmdbseq.kis")' >CMDB Platform</a>
 			</li>
-			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:9000")' >Portainer</a>
-			</li>
-			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:17109")' >RabbitMQ</a>
-			</li>
-			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:3005")' >Grafana</a>
-			</li>
-              
-			<li class='nav-item ' ><a class='nav-link' href='javascript:loadcomposer("http://last.dunamisplatform.co.kr:9090")'>Prometheus</a>
-			</li>
-                                 
+            <script mode="server">
+            var objs=cmdbutil.getInstances2P(_conn,"CMDB/SubSystems",null,null,0,1000,true);
+            for(var i=0;i<objs.length;i++){
+                           out.println('<li class="nav-item"><a class="nav-link" href="javascript:loadcomposer(\''+objs[i].getString('Url')+'\')">'+objs[i].getString('Title')+'</a></li>');
+                           }
+            </script>          
 			<li class='nav-item-divider'></li>
 		</ul>
 	</li>

@@ -12,6 +12,7 @@ var processGitHub=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"Process
 var pagescmdb=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"UITemplates/pages/cmdb"),"all");
 var messagedefs=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/MessageDefs"),"all");
 var messagehist=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/MessageHist"),null);
+var subsystems=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/SubSystems"),null);
 var registeddockers=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/RegistedDockers"),"all");
 var apiservices=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/ApiServices"),"all");
 var last=new Vector();
@@ -25,6 +26,7 @@ appendData(last,processGitHub);
 appendData(last,pagescmdb);
 appendData(last,messagedefs);
 appendData(last,messagehist);
+appendData(last,subsystems);
 appendData(last,registeddockers);
 appendData(last,apiservices);
 var map=new MAP();
