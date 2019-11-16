@@ -1,0 +1,10 @@
+/*VersionNumber:null*/
+importPackage(java.io)
+var readData=request.readData;
+var data=manager.parseJSON(readData);
+
+//modified dual
+if(data.get("commits")!=null){
+  manager.pullAllGit("origin","master");
+  cmdbutil.processGitHubMessage(_conn,data);
+}
