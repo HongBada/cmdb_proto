@@ -1,5 +1,5 @@
 /*VersionNumber:null*/
-//mode1
+//mode3
 var host=request.getParameter("host");
 var mode=request.getParameter("mode");
 var name=request.getParameter("name");
