@@ -24,14 +24,23 @@
                   var fields=rows[j].split(",");
                   var md="2";
                   var xs="2";
-                  if(fields.length<=3){
+                  if(fields.length<=1){
+                  		md="12";
+                    	xs="10";
+                  }else if(fields.length<=2){
+                  		md="6";
+                    	xs="7";
+                  }else if(fields.length<=3){
                   		md="3";
                     	xs="5";
+                  }else if(fields.length<=4){
+                  		md="2";
+                    	xs="3";
                   }
                   for(var k=0;k<fields.length;k++){
                        options+='\
 						  <div class="col-md-'+md+'"><div class="form-group"><div class="col-xs-'+xs+'">\
-                          <label for="'+objs[i].getString("CID")+j+k+'">'+fields[k]+'</label><input style="height:25px" id="'+objs[i].getString("CID")+j+k+'" type="text" class="form-control" name="'+fields[k]+'" >\
+                          <input style="height:25px" placeholder="'+fields[k]+'" id="'+objs[i].getString("CID")+j+k+'" type="text" class="form-control" name="'+fields[k]+'" >\
                           </div></div></div>  '+engine.cr();
                   }
                   options+="</div>";
