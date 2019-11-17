@@ -11,8 +11,14 @@
             <script mode="server">
             var objs=cmdbutil.getInstances2P(_conn,"CMDB/SubSystems",null,null,0,1000,true);
             for(var i=0;i<objs.length;i++){
-                           out.println('<li class="nav-item"><a class="nav-link" href="javascript:loadcomposer(\''+objs[i].getString('Url')+'\')">'+objs[i].getString('Title')+'</a></li>');
+                           var target=objs[i].getString('target');
+                           if(target=="newwindow"){
+                           		out.println('<li class="nav-item"><a class="nav-link" target="_blank" href="'+objs[i].getString('Url')+'" >'+objs[i].getString('Title')+'</a></li>');                                 
+                           }else{
+                           		out.println('<li class="nav-item"><a class="nav-link" href="javascript:loadcomposer(\''+objs[i].getString('Url')+'\')">'+objs[i].getString('Title')+'</a></li>');                           
                            }
+
+            }
             </script>          
 			<li class='nav-item-divider'></li>
 		</ul>
