@@ -1,10 +1,15 @@
 /*VersionNumber:null*/
 importPackage(java.util);
-var host=request.getParameter("host");
-var name=request.getParameter("target");
-var script="curl last.dunamisplatform.co.kr:17008/Process/CMDB/makeCmdbPackage.kis >cmdb.json;";
-script+="docker cp cmdb.json "+name+":/Library/tomcat/webapps/ROOT/log/cmdb.json;";
-script+="docker exec "+name+" curl http://localhost/servlet/flashbox.CMDB.RESTOREFILE?I_TNAME=cmdb.json";
-var ret=cmdbutil.executeSSH(_conn,"system",host,script,null);
-out.println(name+" of "+host +" installed docker maneger.");
-out.println(ret);
+var fields="src_db_url,src_db_port,src_db_user,src_db_pwd,src_db_name,tar_db_url,tar_db_port,tar_db_user,tar_db_pwd,tar_db_name".split(",");
+var map=new MAP();
+for(var i=0;i<fields.length;i++){
+  map.put(fields[i],request.getParameter(fields[i]));
+}
+var script="mysqldump -h "+map.getString("src_db_url")+" -P "+map.getString("src_db_port")+"  -u  " 
+	+map.getString("src_db_user")+" -p"+map.getString("src_db_pwd")
+	+" "+map.getString("src_db_name")  +">"+map.getString("src_db_name")+".sql;";
+  	script+="mysql -h "+map.getString("tar_db_url")+" -P "+map.getString("tar_db_port")+" -u "+map.getString("tar_db_user")
+    +" -p"+map.getString("tar_db_port")+" "+map.getString("tar_db_name")+" <"+map.getString("tar_db_name")+".sql;";
+  script+="rm -r -d "+map.getString("src_db_name")+".sql";
+
+out.println("<body><script>alert('"+script+"')</script></body>")
