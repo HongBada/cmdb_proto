@@ -28,8 +28,6 @@
 			}else{
 				update="<button class='btn btn-light'  type='button' onclick='javascript:installapps(\""+url+"\")'>Install<i class='icon-play3 ml-2'></i></button>";
 			}
-
-
 			
 
 			var buffer='	<div class="col-xl-6">\
