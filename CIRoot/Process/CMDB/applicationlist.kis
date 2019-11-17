@@ -15,7 +15,7 @@
 				open=true;
 			}
 			var url=objs[i].getString('Url')+"?host="+host+"&target="+target;
-
+			var update="";
 			var options=objs[i].getString('Options')
 			if(options!=""){
 				var fields=options.split(",");
@@ -24,6 +24,7 @@
 					 options+='<input type="text" class="form-control" name="'+fields[k]+'" placeholder="'+fields[k]+'">';
 				}
 				options+='<button type="submit" class="btn btn-primary">Submit <i class="icon-paperplane ml-2"></i></button></form>';
+				update=options;
 			}else{
 				update="<button class='btn btn-light'  type='button' onclick='javascript:installapps(\""+url+"\")'>Install<i class='icon-play3 ml-2'></i></button>";
 			}
