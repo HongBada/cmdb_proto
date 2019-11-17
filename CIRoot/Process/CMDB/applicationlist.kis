@@ -15,6 +15,16 @@
 				open=true;
 			}
 			var url=objs[i].getString('Url')+"?host="+host+"&target="+target;
+
+			var options=objs[i].getString('Options')
+			if(options!=""){
+				var fields=oprions.split(",");
+				options="";
+				for(var k=0;k<fields.length;k++){'
+					 options+='<input type="text" class="form-control" name="'+fields[k]+'" placeholder="'+fields[k]+'">';
+				}
+			}
+
 			var update="<button class='btn btn-light'  type='button' onclick='javascript:installapps(\""+url+"\")'>Install<i class='icon-play3 ml-2'></i></button>";
 
 			var buffer='	<div class="col-xl-6">\
@@ -22,6 +32,7 @@
 			<div class="media-body">\
 			<h6 class="media-title"><a href="#">'+objs[i].getString('Title')+'</a></h6>\
 			'+objs[i].getString('memo')+'  \
+			'+options+' \
 			'+update+' \
 			</div>\
 			</div>\
