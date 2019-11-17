@@ -73,6 +73,8 @@
 			</li>
 			<li class='nav-item'><a class='nav-link' href='javascript:installcomponents()'>컨테이너 설치</a>
 			</li>
+			<li class='nav-item'><a class='nav-link' href='javascript:executecommands()'>System Manager</a>
+			</li>
 			<li class='nav-item-divider'></li>
 		</ul>
 	</li>

@@ -113,6 +113,13 @@ function loadHostGuages(){
   })    
 }  
 
+function executecommands(){
+  window._DHTMLX.getURL("/Process/CMDB/commandlist.kis",function(error,text){
+    $('#gridcontainer')
+    .html(text);
+  })    
+}  
+
 function installcomponents(){
   window._DHTMLX.getURL("/Process/CMDB/actionlist.kis",function(error,text){
     $('#gridcontainer')

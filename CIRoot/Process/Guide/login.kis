@@ -5,8 +5,12 @@ var pwd=request.getParameter("PWD")
 //pwd="1qazxsw2"
 var tid=cmdbutil.findTid(_conn,null,"CMDB/test");
 var objs=cmdbutil.getInstances2P(_conn,tid,"UID="+id+"&PWD="+pwd,null,0,100,true);
+
+var plist = new MAP();
+
 if(objs.length>0){
-  out.println("SUCCESS")
+  plist.put("_state_","SUCCESS");
 }else{
-  out.println("FAIL")
+  plist.put("_state_","FAIL");
 }
+engine.printPlist(plist);

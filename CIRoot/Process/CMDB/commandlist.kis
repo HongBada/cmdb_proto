@@ -1,9 +1,8 @@
 /*VersionNumber:null*/
-<div class="card">
   <iframe name='dummy' style='width:0px;height:0px'></iframe>
 	<div class="card-body pb-0">
 		<script mode="server">
-		var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedApps",null,null,0,1000,true);
+		var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedActions",null,null,0,1000,true);
 		var i=0;
 		var open=false;
 		var host=request.getParameter("host");
@@ -18,12 +17,19 @@
 			var update="";
 			var options=objs[i].getString('Options')
 			if(options!=""){
-				var fields=options.split(",");
+				var rows=options.split("\n");
 				options="<form method='post' action='"+objs[i].getString('Url')+"' target='dummy'>";
-				for(var k=0;k<fields.length;k++){
-					 options+='\
-						<input type="text"  name="'+fields[k]+'" placeholder="'+fields[k]+'">';
-				}
+              	for(var j=0;j<rows.length;j++){
+                  options+="<div class='row'>"
+                  var fields=rows[j].split(",");
+                  for(var k=0;k<fields.length;k++){
+                       options+='\
+						  <div class="col-md-2"><div class="form-group"><div class="col-xs-2">\
+                          <input type="text"  name="'+fields[k]+'" placeholder="'+fields[k]+'">\
+                          </div></div></div>  '+engine.cr();
+                  }
+                  options+="</div>";
+                }
 				options+='<div class="d-flex justify-content-between align-items-center">\
   				<button type="submit" class="btn bg-blue">Submit <i class="icon-paperplane ml-2"></i></button></div></form>';
 				update=options;
@@ -49,4 +55,3 @@
 		}
 		</script>
 	</div>
-</div>
