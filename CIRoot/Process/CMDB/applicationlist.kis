@@ -1,5 +1,4 @@
 /*VersionNumber:null*/
-
 <div class="card">
 	<div class="card-body pb-0">
 		<script mode="server">
@@ -28,7 +27,7 @@
 			}else{
 				update="<button class='btn btn-light'  type='button' onclick='javascript:installapps(\""+url+"\")'>Install<i class='icon-play3 ml-2'></i></button>";
 			}
-			
+
 
 			var buffer='	<div class="col-xl-6">\
 			<div class="media flex-column flex-sm-row mt-0 mb-3">\
