@@ -7,7 +7,7 @@ var script=request.getParameter("script");
 try{  
 //  cmdbutil.scpFrom(_conn,registry,"/home/dunamis/files/cmdb_proto-WEB-INF.latest.gz","/Library/WEB-INF.latest.gz");
   if(mode=="edit"){
-    script+="docker exec "+target+" rm -r -f /Library/tomcat/webapps/ROOT/log/*"
+    script+="docker exec "+target+" rm -r -f /Library/tomcat/webapps/ROOT/log/*;"
     script+="docker commit "+target+" hongbada/cmdb_proto:3.4.3;";
     script+="docker login;docker push hongbada/cmdb_proto:3.4.3;";
     var ret=manager.replaceStr(script,";",";"+engine.cr());
