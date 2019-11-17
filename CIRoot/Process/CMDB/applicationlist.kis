@@ -1,39 +1,39 @@
 /*VersionNumber:null*/
 
 
-						<div class="card">
-							<div class="card-body pb-0">
-  <script mode="server">
-    var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedApps",null,null,0,1000,true);
-    var i=0;
-    var open=false;
-    var host=request.getParameter("host");
-    var target=request.getParameter("target");
-    
-    for(i=0;i<objs.length;i++){
-       if(i%2==0){
-        out.println("<div class='row'>");
-        open=true;       
-       }
-       var url=objs[i].getString('Url')+"?host="+host+"&target="+target;
-       var update="<button class='btn btn-light'  type='button' onclick='javascript:installapps(\""+url+"\")'>Install<i class='icon-play3 ml-2'></i></button>";
-               
-								var buffer='	<div class="col-xl-6">\
-										<div class="media flex-column flex-sm-row mt-0 mb-3">\
-				        					<div class="media-body">\
-												<h6 class="media-title"><a href="#">'+objs[i].getString('Title')+'</a></h6>\
-												'+objs[i].getString('memo')+'  \
-                                                '+update+' \
-											</div>\
-										</div>\
-									</div>';
-               out.println(buffer);
-       if(i%2==1){
-        out.println("</div>");
-        open=false;       
-       }   
-               }
-               </script>                              
-                              
-							</div>
-						</div>
+<div class="card">
+	<div class="card-body pb-0">
+		<script mode="server">
+		var objs=cmdbutil.getInstances2P(_conn,"CMDB/RegistedApps",null,null,0,1000,true);
+		var i=0;
+		var open=false;
+		var host=request.getParameter("host");
+		var target=request.getParameter("target");
+
+		for(i=0;i<objs.length;i++){
+			if(i%2==0){
+				out.println("<div class='row'>");
+				open=true;
+			}
+			var url=objs[i].getString('Url')+"?host="+host+"&target="+target;
+			var update="<button class='btn btn-light'  type='button' onclick='javascript:installapps(\""+url+"\")'>Install<i class='icon-play3 ml-2'></i></button>";
+
+			var buffer='	<div class="col-xl-6">\
+			<div class="media flex-column flex-sm-row mt-0 mb-3">\
+			<div class="media-body">\
+			<h6 class="media-title"><a href="#">'+objs[i].getString('Title')+'</a></h6>\
+			'+objs[i].getString('memo')+'  \
+			'+update+' \
+			</div>\
+			</div>\
+			</div>';
+			out.println(buffer);
+			if(i%2==1){
+				out.println("</div>");
+				open=false;
+			}
+		}
+		</script>
+
+	</div>
+</div>
