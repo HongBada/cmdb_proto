@@ -6,7 +6,9 @@
   
 	<li class='nav-item nav-item-submenu'><a class='nav-link' href='#'><i class='icon-stack2'></i> <span>Sub System</span></a>
 		<ul data-submenu-title='Page layouts' class='nav nav-group-sub'>
-			<li class='nav-item'><a class='nav-link' href='javascript:loadcomposer("/dunamis/assets/cmdbseq.kis")' >CMDB Platform</a>
+			<li class='nav-item'><a class='nav-link' href='/dunamis/assets/cmdbseq.kis' target='_blank'>CMDB Platform</a>
+			</li>
+			<li class='nav-item'><a class='nav-link' href='/explorer2/index2.kis' target='_blank'>CMDB Explorer</a>
 			</li>
             <script mode="server">
             var objs=cmdbutil.getInstances2P(_conn,"CMDB/SubSystems",null,null,0,1000,true);
