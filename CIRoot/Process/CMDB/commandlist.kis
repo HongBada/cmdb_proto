@@ -22,10 +22,16 @@
               	for(var j=0;j<rows.length;j++){
                   options+="<div class='row'>"
                   var fields=rows[j].split(",");
+                  var md="2";
+                  var xs="2";
+                  if(fields.length<=3){
+                  		md="3";
+                    	xs="5";
+                  }
                   for(var k=0;k<fields.length;k++){
                        options+='\
-						  <div class="col-md-2"><div class="form-group"><div class="col-xs-2">\
-                          <input type="text"  name="'+fields[k]+'" placeholder="'+fields[k]+'">\
+						  <div class="col-md-'+md+'"><div class="form-group"><div class="col-xs-'+xs+'">\
+                          <label for="'+objs[i].getString("CID")+j+k+'">'+fields[k]+'</label><input style="height:25px" id="'+objs[i].getString("CID")+j+k+'" type="text" class="form-control" name="'+fields[k]+'" >\
                           </div></div></div>  '+engine.cr();
                   }
                   options+="</div>";

@@ -13,4 +13,4 @@ if(objs.length>0){
 }else{
   plist.put("_state_","FAIL");
 }
-engine.printPlist(plist);
+out.println(manager.plistToJson(plist));
