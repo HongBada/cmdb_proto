@@ -4,6 +4,7 @@ var readData=request.readData;
 var data=manager.parseJSON(readData);
 engine.serverlog(readData);
 if(data.get("commits")!=null){
+  engine.serverlog("pull");
   manager.pullAllGit("origin","master");
   cmdbutil.processGitHubMessage(_conn,data);
 }
