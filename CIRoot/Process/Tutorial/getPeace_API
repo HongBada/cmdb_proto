@@ -8,7 +8,7 @@ importPackage(com.google.gson)
 importPackage(Packages.qwave.chatbot.util)
 
 
-//test 12345
+//test 12345 6789 10011
 
 
 var gsonBuilder = new GsonBuilder();
