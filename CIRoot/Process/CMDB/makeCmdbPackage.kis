@@ -12,7 +12,10 @@ var processGitHub=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"Process
 var pagescmdb=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"UITemplates/pages/cmdb"),"all");
 var messagedefs=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/MessageDefs"),"all");
 var messagehist=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/MessageHist"),null);
+<<<<<<< Updated upstream
 var subsystems=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/SubSystems"),null);
+=======
+>>>>>>> Stashed changes
 var registeddockers=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/RegistedDockers"),"all");
 var apiservices=cmdbutil.exportJson(_conn,cmdbutil.findTid(_conn,null,"CMDB/ApiServices"),"all");
 var last=new Vector();
@@ -26,6 +29,7 @@ appendData(last,processGitHub);
 appendData(last,pagescmdb);
 appendData(last,messagedefs);
 appendData(last,messagehist);
+<<<<<<< Updated upstream
 appendData(last,subsystems);
 appendData(last,registeddockers);
 appendData(last,apiservices);
@@ -33,8 +37,17 @@ var map=new MAP();
 map.put("data",last.toArray());
 out.println(manager.encrypt(manager.plistToJson(map)));
 /*
+=======
+appendData(last,registeddockers);
+appendData(last,apiservices);
+
+>>>>>>> Stashed changes
 var map=new MAP();
 map.put("data",last.toArray());
 manager.saveFile("/Library/tomcat/webapps/ROOT/files/cmdb.json",manager.plistToJson(map));
 out.println("total "+last.size());
+<<<<<<< Updated upstream
 */
+=======
+
+>>>>>>> Stashed changes

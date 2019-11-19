@@ -1,6 +1,0 @@
-/*VersionNumber:null*/
-//__clientscript__
-setTimeout(function(){
-  loadHostGuages();
-    //loadcomposer("/Process/CMDB/cadvisor.kis?host=last.dunamisplatform.co.kr:18080")
-  },1000)  
