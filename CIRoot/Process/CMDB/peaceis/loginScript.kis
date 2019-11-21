@@ -1,1 +1,92 @@
+/*VersionNumber:null*/
 // 로그인 페이지 용 스크립트 lo001.kis
+//__clientscript__
+		$(document)
+			.ready(function () {
+				$('#login_btn')
+					.on('click', function (e) {
+
+						e.preventDefault();
+						var id = $("#id")
+							.val();
+						var password = $("#password")
+							.val();
+
+						if (id && password) {
+							console.log("id : " + id + " @@ pw : " + password);
+							var reqData = "";
+							reqData += "I_TYPE=" + $("#type")
+								.val() + "&";
+							reqData += "I_UID=" + id + "&";
+							//reqData+="A=1&I_PWD="+encodeURIComponent($("#password").val())+"&";
+							reqData += "A=1&I_PWD=" + password + "&";
+							reqData += "COMPANY=평화이즈&";
+							reqData += "systemCharacter=utf8&";
+							reqData += "paramEncoding=utf8&";
+							reqData += "I_PARENT=CMDB&I__PROCID=login";
+							console.log(reqData);
+
+							postDataAsync("/Process/Guide/login.kis", reqData,
+								function (data) {
+									console.log(data);
+									var obj = JSON.parse(data);
+									if (obj._state_ == "SUCCESS") {
+										//location.replace("/DevAdmin/user.kis");
+										window.location = "ma001.kis";
+										//alert('로그인');
+									} else {
+										alert(obj._msg_);
+									}
+								},
+								function () {
+									dhtmlx.alert("오류");
+								}
+
+							);
+
+						} else {
+							alert('아이디, 패스워드를 확인해주세요.');
+						}
+					});
+			})
+		$("#id")
+			.keyup(function (event) {
+				if (event.keyCode == 13) {
+					$("#login_btn")
+						.click();
+				}
+			});
+		$("#password")
+			.keyup(function (event) {
+				if (event.keyCode == 13) {
+					$("#login_btn")
+						.click();
+				}
+			});
+
+		function postDataAsync(url, reqData, succdunc, failfunc) {
+			//dataType 을 html 로 하는것을 유의해주기 바란다.
+			$.ajax({
+				type: "POST",
+				async: true,
+				url: url,
+				data: reqData,
+				dataType: "html",
+				success: function (xml) {
+					console.log(xml);
+					if (succdunc != null) {
+						succdunc(xml);
+					}
+				},
+				error: function (t) {
+					if (failfunc != null) {
+						failfunc();
+					}
+					console.log("error " + JSON.stringify(t));
+				}
+			});
+		}
+
+		function underConstruction() {
+			alert('아직 준비중입니다.');
+		}
