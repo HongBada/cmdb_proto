@@ -1,0 +1,44 @@
+/*VersionNumber:null*/
+var filePath=manager.systemRoot()+"peaceis/html";
+var tpath = "peaceis";
+/*
+var files=engine.getFileList(filePath);
+for(var i=0;i<files.length;i++){
+  var idx=files[i].indexOf(".html");
+  if(idx>0){
+    var fname=files[i].substring(0,idx);
+    out.println(fname);
+    var ptid=cmdbutil.findTid(_conn,null,"UITemplates/"+tpath);
+    cmdbutil.insertTemplate(_conn,ptid,fname,"ListType/GridTreeType");
+    var tid=cmdbutil.findTid(_conn,null,tpath + "/" + fname);
+    var map=new MAP();
+    map.put("action","importfile");
+    map.put("TID",tid);
+    map.put("OWNER","system");
+    map.put("FILEPATH",filePath + "/" + files[i]);
+    cmdbnotice.addJob(map,"import "+fname);    
+  }
+}
+*/
+var filePath=manager.systemRoot()+"peaceis/html";
+var tpath = "peaceis";
+
+var files=engine.getFileList(filePath);
+for(var i=0;i<files.length;i++){
+  var idx=files[i].indexOf(".html");
+  if(idx>0){
+    var fname=files[i].substring(0,idx);
+    out.println(fname);
+    var ptid=cmdbutil.findTid(_conn,null,"UITemplates/"+tpath);
+    out.println(ptid);
+    cmdbutil.insertTemplate(_conn,ptid,fname,"ListType/GridTreeType");
+    var tid=cmdbutil.findTid(_conn,null,tpath + "/" + fname);
+    out.println(tid);
+    var map=new MAP();
+    map.put("action","importfile");
+    map.put("TID",tid);
+    map.put("OWNER","system");
+    map.put("FILEPATH",filePath + "/" + files[i]);
+    cmdbnotice.addJob(map,"import "+fname);    
+  }
+}
